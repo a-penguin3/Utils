@@ -13,9 +13,6 @@ import java.lang.reflect.Method;
 
 /**
  * ResponseResult注解拦截器
- *
- * @author: Mr.Garlic
- * @date: 2021/1/10
  */
 @Component
 public class ResponseResultInterceptor implements HandlerInterceptor {

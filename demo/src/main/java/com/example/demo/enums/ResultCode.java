@@ -3,7 +3,7 @@ package com.example.demo.enums;
 import lombok.Getter;
 
 @Getter
-public enum ResultCode {
+public enum ResultCode implements StatusCode{
 
 
     SUCCESS(200,"success"),

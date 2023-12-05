@@ -3,6 +3,7 @@ package com.example.demo.config;
 import com.example.demo.model.Result;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -36,7 +37,7 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
 
     // 判断是否需要执行beforeBodyWrite
     @Override
-    public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
+    public boolean supports(@Nonnull MethodParameter methodParameter, @Nonnull Class<? extends HttpMessageConverter<?>> aClass) {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert servletRequestAttributes != null;
         HttpServletRequest request = servletRequestAttributes.getRequest();
@@ -53,9 +54,9 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
 //    }
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter methodParameter,
-                                  MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass,
-                                  ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+    public Object beforeBodyWrite(Object body,@Nonnull MethodParameter methodParameter,
+                                  @Nonnull MediaType mediaType,@Nonnull Class<? extends HttpMessageConverter<?>> aClass,
+                                  @Nonnull ServerHttpRequest serverHttpRequest,@Nonnull ServerHttpResponse serverHttpResponse) {
         if (body instanceof String){
             return toJson(Result.success(body));
         }
@@ -96,15 +97,15 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
 //    }
 
     //服务异常处理
-//    @ExceptionHandler(APIException.class)
-//    public Result APIExceptionHandler(APIException e) {
-//        // log.error(e.getMessage(), e); 由于还没集成日志框架，暂且放着，写上TODO
-//        return new ResultVo(e.getCode(), e.getMsg(), e.getMessage());
-//    }
+    @ExceptionHandler(APIException.class)
+    public Result<String> APIExceptionHandler(APIException e) {
+        // log.error(e.getMessage(), e); 由于还没集成日志框架，暂且放着，写上TODO
+        return Result.failure(e.getMsg());
+    }
 
 
 
-    private Object toJson(Result response) {
+    private Object toJson(Result<Object> response) {
         try {
             return new ObjectMapper().writeValueAsString(response);
         } catch (JsonProcessingException e) {

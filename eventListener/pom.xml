@@ -7,21 +7,14 @@
         <artifactId>utils</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>demo</artifactId>
+    <artifactId>eventListener</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>demo</description>
-
+    <name>eventListener</name>
+    <description>eventListener</description>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
     <dependencies>
-        <!-- openAPI包，替换 Swagger 的 SpringFox -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

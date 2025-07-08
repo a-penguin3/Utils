@@ -1,17 +1,17 @@
 package com.example.demo.controller;
 
+import com.alibaba.excel.EasyExcelFactory;
 import com.example.demo.config.ResponseResult;
 import com.example.demo.model.TestVo;
+import com.example.demo.model.UploadDeviceData;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/test")
@@ -67,6 +67,14 @@ public class TestController {
         vo.setName("123");
         vo.setType("321");
         return vo;
+    }
+
+    @PostMapping("/test/excel")
+    public void testExcel(@RequestBody MultipartFile file) throws IOException {
+        List<UploadDeviceData> list = EasyExcelFactory.read(file.getInputStream()).head(UploadDeviceData.class).sheet().doReadSync();
+        for (UploadDeviceData uploadDeviceData : list){
+            System.out.println(uploadDeviceData.toString());
+        }
     }
 
 }
